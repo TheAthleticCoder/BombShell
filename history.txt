@@ -1,5 +1,4 @@
 20
-ls -a
 ls -l
 ls -al
 ls -al teste
@@ -19,3 +18,4 @@ history 5
 ls -a -l
 discover teste
 ls
+pwd
