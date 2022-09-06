@@ -1,0 +1,21 @@
+20
+ls -a
+ls -l
+ls -al
+ls -al teste
+ls -a
+ls -a teste
+ls -la 
+ls -la teste
+ls
+ls teste
+ls -l
+ls -a
+ls -l teste
+ls -la teste
+history
+history 2
+history 5
+ls -a -l
+discover teste
+ls
