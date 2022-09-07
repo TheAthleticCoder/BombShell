@@ -1,10 +1,4 @@
 20
-discover teste
-discover -d
-discover teste -d
-discover teste -f
-discover teste
-discover . "cd.c:
 discover
 discover teste
 history
@@ -19,3 +13,9 @@ pinfo 29888
 sleep 7
 sleep 3
 gedit
+ls
+pinfo
+sleep 9
+sleep 7
+sleep 2
+sleep 10
