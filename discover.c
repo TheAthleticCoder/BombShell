@@ -1,6 +1,6 @@
 #include "headers.h"
 
-// a function which takes in the input string
+// a function which takes in the input string and prints as desired
 char discover_printer(char *input)
 {
     // if input is equal to home, print ~
@@ -19,7 +19,6 @@ char discover_printer(char *input)
 
 void discover_direc(char *path, char *file_name, int flag_d, int flag_f, int flag_file)
 {
-    // declare an array to store full path
     char *full_path = malloc(sizeof(char) * BUFFER_MAX);
     // open directory
     DIR *dir = opendir(path);
@@ -31,12 +30,9 @@ void discover_direc(char *path, char *file_name, int flag_d, int flag_f, int fla
     // check if filename is given
     if (flag_file == 1)
     {
-        // check if file is present in in path and its subdirectories
-        // if file is present, print its path
-        // if file is not present, print error
+        // check for file existence in sub directories
         if (flag_f == 0)
         {
-            // check if file is present in path
             if (flag_d == 0)
             {
                 // check if file is present in path
@@ -51,22 +47,22 @@ void discover_direc(char *path, char *file_name, int flag_d, int flag_f, int fla
             // check if file is present in subdirectories
             else
             {
-                // check if file is present in subdirectories
+                // checking if file is present in subdirectories
                 struct dirent *entry;
                 while ((entry = readdir(dir)) != NULL)
                 {
-                    // check if entry is a directory
                     if (entry->d_type == DT_DIR)
                     {
-                        // check if entry is . or ..
+                        // checking if entry is . or ..
                         if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
                         {
                             continue;
                         }
-                        // check if file is present in subdirectory
+                        // checking if file is present in subdirectory
                         strcpy(full_path, path);
                         strcat(full_path, "/");
                         strcat(full_path, entry->d_name);
+                        //recurse
                         discover_direc(full_path, file_name, flag_d, flag_f, flag_file);
                     }
                 }
@@ -83,11 +79,10 @@ void discover_direc(char *path, char *file_name, int flag_d, int flag_f, int fla
             {
                 if (direc->d_type == DT_DIR)
                 {
-                    // if name is directory we are in or parent directory, print it as it is
+                    // if name is directory we are in or parent directory
                     if (strcmp(direc->d_name, ".") == 0)
                     {
                         continue;
-                        // printf("%s\n", direc->d_name);
                     }
                     else if (strcmp(direc->d_name, "..") == 0)
                     {
@@ -99,10 +94,7 @@ void discover_direc(char *path, char *file_name, int flag_d, int flag_f, int fla
                         strcat(full_path, "/");
                         strcat(full_path, direc->d_name);
                         printf("%s\n", full_path);
-                        // discover_printer(full_path);
-                        // recursively call discover_direc
                         discover_direc(full_path, file_name, flag_d, flag_f, flag_file);
-                        // clear full_path
                         memset(full_path, 0, BUFFER_MAX);
                     }
                 }
@@ -112,11 +104,10 @@ void discover_direc(char *path, char *file_name, int flag_d, int flag_f, int fla
             {
                 if (direc->d_type == DT_REG)
                 {
-                    // if name is directory we are in or parent directory, print it as it is
+                    // if name is directory we are in or parent directory
                     if (strcmp(direc->d_name, ".") == 0)
                     {
                         continue;
-                        // printf("%s\n", direc->d_name);
                     }
                     else if (strcmp(direc->d_name, "..") == 0)
                     {
@@ -128,7 +119,6 @@ void discover_direc(char *path, char *file_name, int flag_d, int flag_f, int fla
                         strcat(full_path, "/");
                         strcat(full_path, direc->d_name);
                         printf("%s\n", full_path);
-                        // discover_printer(full_path);
                         memset(full_path, 0, BUFFER_MAX);
                     }
                 }
@@ -140,7 +130,6 @@ void discover_direc(char *path, char *file_name, int flag_d, int flag_f, int fla
                 if (strcmp(direc->d_name, ".") == 0)
                 {
                     continue;
-                    // printf("%s\n", direc->d_name);
                 }
                 else if (strcmp(direc->d_name, "..") == 0)
                 {
@@ -152,8 +141,6 @@ void discover_direc(char *path, char *file_name, int flag_d, int flag_f, int fla
                     strcat(full_path, "/");
                     strcat(full_path, direc->d_name);
                     printf("%s\n", full_path);
-                    // discover_printer(full_path);
-                    // if its a directory, recursively call discover_direc
                     if (direc->d_type == DT_DIR)
                     {
                         discover_direc(full_path, file_name, flag_d, flag_f, flag_file);
@@ -162,105 +149,11 @@ void discover_direc(char *path, char *file_name, int flag_d, int flag_f, int fla
                     {
                         continue;
                     }
-                    // clear full_path
                     memset(full_path, 0, BUFFER_MAX);
                 }
             }
         }
     }
-
-    // struct dirent *direc;
-    // while ((direc = readdir(dir)) != NULL)
-    // {
-    //     // if flag_d is set, print directories
-    //     if (flag_d == 1)
-    //     {
-    //         if (direc->d_type == DT_DIR)
-    //         {
-    //             // if name is directory we are in or parent directory, print it as it is
-    //             if (strcmp(direc->d_name, ".") == 0)
-    //             {
-    //                 continue;
-    //                 // printf("%s\n", direc->d_name);
-    //             }
-    //             else if (strcmp(direc->d_name, "..") == 0)
-    //             {
-    //                 continue;
-    //             }
-    //             else
-    //             {
-    //                 strcpy(full_path, path);
-    //                 strcat(full_path, "/");
-    //                 strcat(full_path, direc->d_name);
-    //                 printf("%s\n", full_path);
-    //                 // discover_printer(full_path);
-    //                 // recursively call discover_direc
-    //                 discover_direc(full_path, file_name, flag_d, flag_f, flag_file);
-    //                 // clear full_path
-    //                 memset(full_path, 0, BUFFER_MAX);
-    //             }
-    //         }
-    //     }
-    //     // if flag_f is set, print files
-    //     if (flag_f == 1)
-    //     {
-    //         if (direc->d_type == DT_REG)
-    //         {
-    //             // if name is directory we are in or parent directory, print it as it is
-    //             if (strcmp(direc->d_name, ".") == 0)
-    //             {
-    //                 continue;
-    //                 // printf("%s\n", direc->d_name);
-    //             }
-    //             else if (strcmp(direc->d_name, "..") == 0)
-    //             {
-    //                 continue;
-    //             }
-    //             else
-    //             {
-    //                 strcpy(full_path, path);
-    //                 strcat(full_path, "/");
-    //                 strcat(full_path, direc->d_name);
-    //                 printf("%s\n", full_path);
-    //                 // discover_printer(full_path);
-    //                 memset(full_path, 0, BUFFER_MAX);
-    //             }
-    //         }
-    //     }
-    //     // if flag_d and flag_f are not set or both are set, print all
-    //     if ((flag_d == 0 && flag_f == 0) | (flag_d == 1 && flag_f == 1))
-    //     {
-    //         // print full path
-    //         if (strcmp(direc->d_name, ".") == 0)
-    //         {
-    //             continue;
-    //             // printf("%s\n", direc->d_name);
-    //         }
-    //         else if (strcmp(direc->d_name, "..") == 0)
-    //         {
-    //             continue;
-    //         }
-    //         else
-    //         {
-    //             strcpy(full_path, path);
-    //             strcat(full_path, "/");
-    //             strcat(full_path, direc->d_name);
-    //             printf("%s\n", full_path);
-    //             // discover_printer(full_path);
-    //             // if its a directory, recursively call discover_direc
-    //             if (direc->d_type == DT_DIR)
-    //             {
-    //                 discover_direc(full_path, file_name, flag_d, flag_f, flag_file);
-    //             }
-    //             else
-    //             {
-    //                 continue;
-    //             }
-    //             // clear full_path
-    //             memset(full_path, 0, BUFFER_MAX);
-    //         }
-    //     }
-    // }
     free(full_path);
     closedir(dir);
 }
@@ -283,12 +176,10 @@ void discover(char **tokens)
         if (strcmp(tokens[index], "-d") == 0)
         {
             flag_d = 1;
-            // printf("flag_d is set\n");
         }
         else if (strcmp(tokens[index], "-f") == 0)
         {
             flag_f = 1;
-            // printf("flag_f is set\n");
         }
         // else if token is in quotes, store it in file_name
         else if (tokens[index][0] == '"')
@@ -303,25 +194,20 @@ void discover(char **tokens)
             }
             file_name[i - 2] = '\0';
             flag_file = 1;
-            // printf("file_name is %s", file_name);
         }
         else
         {
-            // opendir
-            // save it to path
             strcpy(path, tokens[index]);
             path_flag = 1;
-            // printf("path is %s", path);
         }
         index++;
     }
     // if path_flag is not set, set path to current working directory
     if (path_flag == 0)
     {
-        // print random numbe
         strcpy(path, ".");
-        // printf("path is 3%s\n", path);
     }
     // call discover_direc
     discover_direc(path, file_name, flag_d, flag_f, flag_file);
+    printf("\n");
 }

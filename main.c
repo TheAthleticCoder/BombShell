@@ -2,14 +2,12 @@
 
 char *home;
 char *prev_dir;
+
 int main()
 {
-    //print prompt
+    //delimiter
     char *delimiter = ";\n";
     //set home as current working directory
-    // char *home;
-    // char *temp = malloc(sizeof(char) * CWD_MAX);
-    //copy temp to home
     home = malloc(sizeof(char) * CWD_MAX);
     prev_dir = malloc(sizeof(char) * CWD_MAX);
     getcwd(home, CWD_MAX);
@@ -20,11 +18,7 @@ int main()
     {
         //Prompt to display the kernel like display
         prompt();
-        //declare user input using pointers
         char *input = malloc(sizeof(char) * BUFFER_MAX);
-        //use readline to get user input
-        // input = readline(input);
-        // printf("%s\n", input);
         fgets(input, BUFFER_MAX, stdin);
         if (input != NULL)
         {
@@ -44,6 +38,7 @@ int main()
             return -1; 
         }
         free(input);
+        check_background_process();
     }
     free(home);
     free(prev_dir);

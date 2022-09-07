@@ -47,6 +47,7 @@ void input_to_execute(char *command, char **tokens);
 void echo(char **tokens);
 void cd(char **tokens);
 void ls(char **tokens);
+extern int process_count;
 
 struct process
 {
@@ -65,6 +66,11 @@ void changeHistory(char *command);
 void uniqueHistory(char *command);
 void saveHistory();
 void displayHistory(char **tokens);
+void run_fore_back(char **command, char **tokens);
+void remove_process(pid_t pid);
+void add_process(pid_t pid, char *command, char **tokens);
+void check_background_process();
+void run_fore_back(char **command, char **tokens);
 
 void discover(char **tokens);
 #endif

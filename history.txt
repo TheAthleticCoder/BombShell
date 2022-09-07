@@ -1,21 +1,21 @@
 20
-ls -l
-ls -al
-ls -al teste
-ls -a
-ls -a teste
-ls -la 
-ls -la teste
-ls
-ls teste
-ls -l
-ls -a
-ls -l teste
-ls -la teste
-history
-history 2
-history 5
-ls -a -l
 discover teste
+discover -d
+discover teste -d
+discover teste -f
+discover teste
+discover . "cd.c:
+discover
+discover teste
+history
+history 4
+sleep 7
 ls
-pwd
+sleep 7
+sleep 3
+sleep 5
+sleep 5 &
+pinfo 29888
+sleep 7
+sleep 3
+gedit

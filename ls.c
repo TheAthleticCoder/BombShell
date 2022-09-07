@@ -1,14 +1,14 @@
 #include "headers.h"
 
-// create compare function for qsort
+// compare function for qsort
 int compare(const void *a, const void *b)
 {
     return strcmp(*(const char **)a, *(const char **)b);
 }
 
-// function to check if input path is an executable file or not
+// function to check file type and print the output in color
 void color_print(char *name, char *path)
-{   
+{
     char *color_temp = malloc(sizeof(char) * BUFFER_MAX);
     strcpy(color_temp, path);
     strcat(color_temp, "/");
@@ -41,9 +41,9 @@ void color_print(char *name, char *path)
     free(color_temp);
 }
 
+// Function to list files in desired format based on flags and paths
 void ls_direc(char *path, int flag_l, int flag_a)
 {
-    // check if path is a directory or a file, if its a file just print the path as is
     struct stat path_stat;
     stat(path, &path_stat);
     if (S_ISREG(path_stat.st_mode) && flag_l == 0)
@@ -52,14 +52,13 @@ void ls_direc(char *path, int flag_l, int flag_a)
         return;
     }
     DIR *dir = opendir(path);
-    // if directory is not found, print error
+    // directory not found
     if (dir == NULL)
     {
         perror("opendir");
         return;
     }
     struct dirent *entry;
-    // create an array of strings to store the names of the files
     if (flag_a == 1 && flag_l == 0)
     {
         char **files = malloc(sizeof(char *) * 100);
@@ -70,9 +69,9 @@ void ls_direc(char *path, int flag_l, int flag_a)
             strcpy(files[i], entry->d_name);
             i++;
         }
-        // sort the files
+        // sorting the files
         qsort(files, i, sizeof(char *), compare);
-        // print the files
+        // printing the files
         for (int j = 0; j < i; j++)
         {
             color_print(files[j], path);
@@ -89,7 +88,7 @@ void ls_direc(char *path, int flag_l, int flag_a)
     {
         char **files = malloc(sizeof(char *) * BUFFER_MAX);
         int i = 0;
-        // read files apart from hidden files
+        // reading files apart from hidden files
         while ((entry = readdir(dir)) != NULL)
         {
             if (entry->d_name[0] != '.')
@@ -99,9 +98,9 @@ void ls_direc(char *path, int flag_l, int flag_a)
                 i++;
             }
         }
-        // sort the files
+        // sorting the files
         qsort(files, i, sizeof(char *), compare);
-        // print the files
+        // printing the files
         for (int j = 0; j < i; j++)
         {
             color_print(files[j], path);
@@ -123,7 +122,7 @@ void ls_direc(char *path, int flag_l, int flag_a)
         {
             while ((entry = readdir(dir)) != NULL)
             {
-                // read the file name and qsort it
+                // reading the file name and qsort it
                 files[i] = malloc(sizeof(char) * BUFFER_MAX);
                 strcpy(files[i], entry->d_name);
                 i++;
@@ -141,9 +140,9 @@ void ls_direc(char *path, int flag_l, int flag_a)
                 }
             }
         }
-        // sort the files
+        // sorting the files
         qsort(files, i, sizeof(char *), compare);
-        // print total number of blocks
+        // printing total number of blocks
         struct stat fileStat;
         int total = 0;
         for (int j = 0; j < i; j++)
@@ -161,7 +160,6 @@ void ls_direc(char *path, int flag_l, int flag_a)
             free(temp);
         }
         printf("total %d\n", total / 2);
-        // print the files
         for (int j = 0; j < i; j++)
         {
             struct stat fileStat;
@@ -203,7 +201,6 @@ void ls_direc(char *path, int flag_l, int flag_a)
             // print the file name
             color_print(files[j], path);
             printf("\n");
-            // function which takes the file name and mode and print in color
             free(file);
         }
         // free the files
@@ -216,6 +213,7 @@ void ls_direc(char *path, int flag_l, int flag_a)
     closedir(dir);
 }
 
+// Main function for ls
 void ls(char **tokens)
 {
     int flag_a = 0;
@@ -224,7 +222,6 @@ void ls(char **tokens)
     int flag_path = 0;
     int path_counter = 0;
     char *path = (char *)malloc(sizeof(char) * BUFFER_MAX);
-    // create 2d array for paths
     char **paths = malloc(sizeof(char *) * BUFFER_MAX);
     while (index < arg_count - 1)
     {
@@ -243,8 +240,6 @@ void ls(char **tokens)
         }
         else
         {
-            // strcpy(path, tokens[index]);
-            // strcpy tokens[index] to the 2D paths array
             paths[path_counter] = malloc(sizeof(char) * BUFFER_MAX);
             strcpy(paths[path_counter], tokens[index]);
             path_counter++;
@@ -253,13 +248,11 @@ void ls(char **tokens)
     }
     if (path_counter == 0)
     {
-        // append . to the paths
         paths[path_counter] = malloc(sizeof(char) * BUFFER_MAX);
         strcpy(paths[path_counter], ".");
         path_counter++;
     }
-    // print paths
-    // if path counter is 1, just call ls_direc else call ls_direc for each path
+    
     if (path_counter == 1)
     {
         ls_direc(paths[0], flag_l, flag_a);
@@ -273,7 +266,7 @@ void ls(char **tokens)
             printf("\n");
         }
     }
-    // free all the paths
+    // free everything
     for (int i = 0; i < path_counter; i++)
     {
         free(paths[i]);
