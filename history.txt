@@ -1,21 +1,21 @@
 20
-discover
-discover teste
+sleep 7 &
+sleep 7
+sleep 8
+ls
+sleep 4
+sleep 8 &
+sleep 6
+sleep 3
+ls
+discover -d
+discover -f
 history
-history 4
-sleep 7
 ls
-sleep 7
-sleep 3
 sleep 5
-sleep 5 &
-pinfo 29888
-sleep 7
-sleep 3
-gedit
+sleep 6
 ls
-pinfo
-sleep 9
-sleep 7
-sleep 2
-sleep 10
+sleep 3
+ d_U
+sleep 3
+sleep 3 &
