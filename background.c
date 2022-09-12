@@ -9,96 +9,92 @@ int process_count = 0;
 void add_process(pid_t pid, char *command, char **tokens)
 {
     // create a new process
-    struct process *new_process = malloc(sizeof(struct process));
+    // struct process *new_process = malloc(sizeof(struct process));
+    struct process *new_process = calloc(1, sizeof(struct process));
     // set the pid
+    new_process->num = process_count + 1;
     new_process->pid = pid;
+    // print new process pid
+    // printf("1[%d] %d\n", new_process->num, new_process->pid);
     // set the command
     new_process->command = malloc(sizeof(char) * 100);
     strcpy(new_process->command, command);
     // set the tokens
     new_process->tokens = malloc(sizeof(char *) * 100);
-    int i = 0;
+    int i = 1;
     while (tokens[i] != NULL)
     {
         new_process->tokens[i] = malloc(sizeof(char) * 100);
         strcpy(new_process->tokens[i], tokens[i]);
         i++;
     }
+    new_process->status = 1;
+    new_process->ab_norm = NULL;
     // set the next to NULL
     new_process->next = NULL;
-    // if processes is NULL, set processes to new_process
+    // if processes is NULL, set processes to new_process else add to end of linked list
     if (processes == NULL)
     {
         processes = new_process;
     }
-    // else, add new_process to the end of the linked list
     else
     {
         struct process *temp = processes;
         while (temp->next != NULL)
-        {
+        {   
             temp = temp->next;
         }
         temp->next = new_process;
     }
+    process_count++;
 }
 
 // remove process from linked list
 void remove_process(pid_t pid)
 {
-    // if processes is NULL, return
-    if (processes == NULL)
-    {
-        return;
-    }
-    // if the pid is the first pid, set processes to the next process
-    if (processes->pid == pid)
-    {
-        processes = processes->next;
-        return;
-    }
-    // else, find the process with the pid and remove it
+    // make status of process 0
     struct process *temp = processes;
-    while (temp->next != NULL)
+    while (temp != NULL)
     {
-        if (temp->next->pid == pid)
+        if (temp->pid == pid)
         {
-            temp->next = temp->next->next;
-            return;
+            temp->status = 0;
+            break;
         }
         temp = temp->next;
     }
-    // free the process
+    // update processes
+    processes = temp;
     free(temp);
 }
 
 void check_background_process()
 {
-    // iterate through all the processes
-    int i = 0;
-    while (i < process_count)
+    struct process *temp = processes;
+    while (temp != NULL)
     {
-        // if the process is killed or exited, remove it from the list
-        if (waitpid(processes[i].pid, NULL, WNOHANG) == processes[i].pid)
+        if (temp->status == 1)
         {
-            // print if process exited normally or abnormally
-            if (WIFEXITED(processes[i].status))
+            /// print if process terminated normally or abnormally
+            if (waitpid(temp->pid, &temp->ab_norm, WNOHANG) == temp->pid)
             {
-                printf("%s with pid = %d exited normally\n", processes[i].command, processes[i].pid);
+                if (temp->ab_norm == 0)
+                {
+                    printf("[%d] %d exited normally\n", temp->num, temp->pid);
+                }
+                else
+                {
+                    printf("[%d] %d exited abnormally\n", temp->num, temp->pid);
+                }
+                //set status to 0
+                temp->status = 0;
             }
-            else
-            {
-                printf("%s with pid = %d exited abnormally\n", processes[i].command, processes[i].pid);
-            }
-            remove_process(processes[i].pid);
-            process_count--;
-            i++;
         }
-        else
-        {
-            i++;
-        }
+        temp = temp->next;
     }
+    free(temp);
+    //print pids and status
+    temp = processes;
 }
 
 void run_fore_back(char **command, char **tokens)
@@ -120,6 +116,17 @@ void run_fore_back(char **command, char **tokens)
     {
         int status;
         pid_t child = fork();
+        char **shift_tokens = malloc(sizeof(char *) * TOK_MAX);
+        shift_tokens[0] = malloc(sizeof(char) * TOK_MAX);
+        strcpy(shift_tokens[0], command);
+        int i = 1;
+        while (tokens[i - 1] != NULL)
+        {
+            shift_tokens[i] = malloc(sizeof(char) * TOK_MAX);
+            strcpy(shift_tokens[i], tokens[i - 1]);
+            i++;
+        }
+        shift_tokens[i] = NULL;
         if (child == -1)
         {
             perror("fork");
@@ -128,32 +135,18 @@ void run_fore_back(char **command, char **tokens)
         else if (child == 0)
         {
             // execute the command
-            char **shift_tokens = malloc(sizeof(char *) * TOK_MAX);
-            // store command in shift_tokens[0]
-            shift_tokens[0] = malloc(sizeof(char) * TOK_MAX);
-            strcpy(shift_tokens[0], command);
-            int i = 1;
-            tokens[arg_count - 1] = NULL;
-            while (tokens[i - 1] != NULL)
-            {
-                shift_tokens[i] = malloc(sizeof(char) * TOK_MAX);
-                strcpy(shift_tokens[i], tokens[i - 1]);
-                i++;
-            }
-            // set shift_tokens[i] to NULL
-            shift_tokens[i + 1] = NULL;
-
             execvp(shift_tokens[0], shift_tokens);
             perror("execvp");
             exit(1);
-            free(shift_tokens);
+            // free(shift_tokens);
         }
         else
         {
-            add_process(child, command, tokens);
-            process_count++;
-            printf("%s %d\n", command, child);
+            add_process(child, shift_tokens[0], shift_tokens);
+            printf("%s [%d]", command, child);
+            printf("\n");
         }
+        free(shift_tokens);
     }
     // else, run foreground process
     else
@@ -197,9 +190,9 @@ void run_fore_back(char **command, char **tokens)
             waitpid(child, &status, 0);
             // if process stopped, print time taken
             if (WIFEXITED(status) != 0)
-            {   
+            {
                 time_elapsed = difftime(time(NULL), start_time);
-                //print process finished in time elapsed
+                // print process finished in time elapsed
                 printf("%s finished in %.3f seconds\n", command, time_elapsed);
                 remove_process(child);
             }

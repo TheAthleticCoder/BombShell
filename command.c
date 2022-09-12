@@ -61,10 +61,46 @@ void input_to_execute(char *command, char **tokens)
     {
         exit(0);
     }
+    else if (strcmp(command, "jobs") == 0)
+    {
+        //print a random number
+        // printf("%d\n", rand());
+        jobs(command, tokens);
+    }
+    else if (strcmp(command, "sig") == 0)
+    {
+        //if more than 2 arguments, print error
+        if (arg_count - 1 > 2)
+        {
+            perror("Too many arguments");
+            return -1;
+        }
+        sig(command, tokens);
+    }
+    else if (strcmp(command, "fg") == 0)
+    {
+        //print a random number
+        printf("%d\n", rand());
+        // jobs(command, tokens);
+    }
+    else if (strcmp(command, "bg") == 0)
+    {
+        //print a random number
+        printf("%d\n", rand());
+        // jobs(command, tokens);
+    }
     else
     {
         //setting last token to NULL to prevent garbage value from passing
         tokens[arg_count - 1] = NULL;
+        //print command and tokens
+        // printf("command: %s\n", command);
+        // int i = 0;
+        // while (tokens[i] != NULL)
+        // {
+        //     printf("tokens[%d]: %s\n", i, tokens[i]);
+        //     i++;
+        // }
         run_fore_back(command, tokens);
     }
 }

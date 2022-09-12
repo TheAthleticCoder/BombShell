@@ -50,11 +50,13 @@ void ls(char **tokens);
 extern int process_count;
 
 struct process
-{
+{   
+    int num;
     pid_t pid;
     char *command;
     char **tokens;
     int status;
+    int ab_norm;
     struct process *next;
 };
 extern struct process *processes;
@@ -73,4 +75,6 @@ void check_background_process();
 void run_fore_back(char **command, char **tokens);
 
 void discover(char **tokens);
+void jobs(char *command, char **tokens);
+void sig(char *command, char **tokens);
 #endif

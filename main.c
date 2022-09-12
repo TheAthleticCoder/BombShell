@@ -18,6 +18,8 @@ int main()
     {
         //Prompt to display the kernel like display
         prompt();
+        //print process count
+        // printf("%d\n", process_count);
         char *input = malloc(sizeof(char) * BUFFER_MAX);
         fgets(input, BUFFER_MAX, stdin);
         if (input != NULL)
@@ -37,8 +39,8 @@ int main()
             perror("fgets");
             return -1; 
         }
-        free(input);
         check_background_process();
+        free(input);
     }
     free(home);
     free(prev_dir);

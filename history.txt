@@ -1,21 +1,21 @@
 20
-sleep 7 &
-sleep 7
-sleep 8
+sig 1 9
+sleep 50 &
+jobs
+sig 1 9
+jobs
+sleep 20 &
+sig 1 9
+jobs
+sleep 50 &
+sig 2 9
+jobs
+sig 3 9
+job
+sig 7 6 8
+fg 1
+fg 6
+bg
 ls
-sleep 4
-sleep 8 &
-sleep 6
-sleep 3
-ls
-discover -d
-discover -f
-history
-ls
-sleep 5
-sleep 6
-ls
-sleep 3
- d_U
-sleep 3
-sleep 3 &
+sleep 10 &
+jobs
