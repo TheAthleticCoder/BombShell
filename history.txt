@@ -1,21 +1,21 @@
 20
-sig 1 9
-sleep 50 &
+gedit
+gedit &
+gedit
 jobs
-sig 1 9
+gedit &
 jobs
-sleep 20 &
-sig 1 9
+gedit &
 jobs
-sleep 50 &
-sig 2 9
+gedit &
+sig 1 19
+gedit &
+sig 1 19
 jobs
-sig 3 9
-job
-sig 7 6 8
+bg 1
+jobs
+bg 2
+jobs
 fg 1
-fg 6
-bg
-ls
-sleep 10 &
 jobs
+echo hi

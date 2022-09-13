@@ -77,4 +77,6 @@ void run_fore_back(char **command, char **tokens);
 void discover(char **tokens);
 void jobs(char *command, char **tokens);
 void sig(char *command, char **tokens);
+void foreground(char **tokens);
+void background(char **tokens);
 #endif

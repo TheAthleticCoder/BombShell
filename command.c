@@ -80,14 +80,14 @@ void input_to_execute(char *command, char **tokens)
     else if (strcmp(command, "fg") == 0)
     {
         //print a random number
-        printf("%d\n", rand());
-        // jobs(command, tokens);
+        // printf("%d\n", rand());
+        foreground(tokens);
     }
     else if (strcmp(command, "bg") == 0)
     {
         //print a random number
-        printf("%d\n", rand());
-        // jobs(command, tokens);
+        // printf("%d\n", rand());
+        background(tokens);
     }
     else
     {

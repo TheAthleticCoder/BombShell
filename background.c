@@ -41,7 +41,7 @@ void add_process(pid_t pid, char *command, char **tokens)
     {
         struct process *temp = processes;
         while (temp->next != NULL)
-        {   
+        {
             temp = temp->next;
         }
         temp->next = new_process;
@@ -86,14 +86,14 @@ void check_background_process()
                 {
                     printf("[%d] %d exited abnormally\n", temp->num, temp->pid);
                 }
-                //set status to 0
+                // set status to 0
                 temp->status = 0;
             }
         }
         temp = temp->next;
     }
     free(temp);
-    //print pids and status
+    // print pids and status
     temp = processes;
 }
 
@@ -155,6 +155,19 @@ void run_fore_back(char **command, char **tokens)
         pid_t child = fork();
         time_t start_time = time(NULL);
         double time_elapsed = 0;
+        char **shift_tokens = malloc(sizeof(char *) * TOK_MAX);
+        shift_tokens[0] = malloc(sizeof(char) * TOK_MAX);
+        strcpy(shift_tokens[0], command);
+        int i = 1;
+        tokens[arg_count - 1] = NULL;
+        while (tokens[i - 1] != NULL)
+        {
+            shift_tokens[i] = malloc(sizeof(char) * TOK_MAX);
+            strcpy(shift_tokens[i], tokens[i - 1]);
+            i++;
+        }
+        // set shift_tokens[i+1] to NULL
+        shift_tokens[i] = NULL;
         if (child == -1)
         {
             perror("fork");
@@ -163,30 +176,15 @@ void run_fore_back(char **command, char **tokens)
         else if (child == 0)
         {
             // execute the command
-            char **shift_tokens = malloc(sizeof(char *) * TOK_MAX);
-            shift_tokens[0] = malloc(sizeof(char) * TOK_MAX);
-            strcpy(shift_tokens[0], command);
-            int i = 1;
-            tokens[arg_count - 1] = NULL;
-            while (tokens[i - 1] != NULL)
-            {
-                shift_tokens[i] = malloc(sizeof(char) * TOK_MAX);
-                strcpy(shift_tokens[i], tokens[i - 1]);
-                i++;
-            }
-            // set shift_tokens[i+1] to NULL
-            shift_tokens[i + 1] = NULL;
-
             execvp(shift_tokens[0], shift_tokens);
             perror("execvp");
             exit(1);
-            free(shift_tokens);
         }
         else
         {
             // wait for the child to finish
             // add the process to the linked list
-            add_process(child, command, tokens);
+            add_process(child, shift_tokens[0], shift_tokens);
             waitpid(child, &status, 0);
             // if process stopped, print time taken
             if (WIFEXITED(status) != 0)
@@ -197,5 +195,6 @@ void run_fore_back(char **command, char **tokens)
                 remove_process(child);
             }
         }
+        free(shift_tokens);
     }
 }
