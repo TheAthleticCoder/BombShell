@@ -1,7 +1,7 @@
 #ifndef __HEADERS_H
 #define __HEADERS_H
 
-#include <stdio.h> 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -11,13 +11,12 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <pwd.h>
-#include <string.h>
-#include <ctype.h>
 #include <stdbool.h>
 #include <sys/stat.h>
 #include <dirent.h>
 #include <grp.h>
 #include <time.h>
+#include <termios.h>
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <signal.h>
@@ -31,12 +30,12 @@
 void prompt();
 
 char *remove_extra_spaces(char *str);
-//call input_tokenizer
+// call input_tokenizer
 #define CMD_MAX 512
 #define TOK_MAX 512
 
 extern int arg_count;
-//declare global variable home
+// declare global variable home
 extern char *home;
 extern char *prev_dir;
 
@@ -50,7 +49,7 @@ void ls(char **tokens);
 extern int process_count;
 
 struct process
-{   
+{
     int num;
     pid_t pid;
     char *command;
@@ -79,4 +78,10 @@ void jobs(char *command, char **tokens);
 void sig(char *command, char **tokens);
 void foreground(char **tokens);
 void background(char **tokens);
+
+// keyboard based input
+void die(const char *s);
+void disableRawMode();
+void enableRawMode();
+char *auto_complete(char *input);
 #endif

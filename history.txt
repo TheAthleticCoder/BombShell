@@ -1,21 +1,21 @@
 20
-gedit
-gedit &
-gedit
-jobs
-gedit &
-jobs
-gedit &
-jobs
-gedit &
-sig 1 19
-gedit &
-sig 1 19
-jobs
-bg 1
-jobs
-bg 2
-jobs
-fg 1
-jobs
-echo hi
+cd tt
+ls
+cd ..
+ls
+cd tt/
+cd t	
+cd tt
+cd ba	
+background.c
+cd ba	background.c
+cd ba	ckground.c
+cd baackground.c
+cd background.c
+cd zebra
+cd zebra/
+cd ..
+cd y
+cd zebra/
+cd y
+cd zebra/
