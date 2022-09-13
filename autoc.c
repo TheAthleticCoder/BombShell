@@ -6,6 +6,7 @@ char *auto_complete(char *input)
     // get the current working directory
     char cwd[CWD_MAX];
     getcwd(cwd, CWD_MAX);
+    int path_flag = 0;
     // get the input
     char *input_copy = malloc(sizeof(char) * BUFFER_MAX);
     strcpy(input_copy, input);
@@ -38,6 +39,7 @@ char *auto_complete(char *input)
         // if the last token part is not empty, set the directory path to the initial part of the last token
         if (strcmp(last_token_part, "") != 0)
         {
+
             strcpy(dir_path, last_token);
             // remove the last token part from the directory path
             dir_path[strlen(dir_path) - strlen(last_token_part)] = '\0';
@@ -51,6 +53,7 @@ char *auto_complete(char *input)
             // update last token
             strcpy(last_token, "");
         }
+        path_flag = 1;
     }
     else
     {
@@ -72,17 +75,19 @@ char *auto_complete(char *input)
         // printf("entry: %s\n", entry->d_name);
         // //print last token
         // printf("last token: %s\n", last_token);
-        // //print length of last token
+        // // //print length of last token
         // printf("length of last token: %d\n", strlen(last_token));
         if (strncmp(entry->d_name, last_token, strlen(last_token)) == 0)
-        {   
+        {
             // printf("in");
             // if its a file then add space after it else if its a folder add / after it
             if (entry->d_type == DT_REG)
             {
+                // printf("in");
                 paths[i] = malloc(sizeof(char) * BUFFER_MAX);
                 strcpy(paths[i], entry->d_name);
                 strcat(paths[i], " ");
+                // printf("paths[i]: %s\n", paths[i]);
                 i++;
             }
             else if (entry->d_type == DT_DIR)
@@ -97,11 +102,23 @@ char *auto_complete(char *input)
     // if there are no paths beginning with last token, return NULL
     if (i == 0)
     {
+        // printf("in1");
         return NULL;
     }
     else if (i == 1)
     {
-        return paths[0];
+        // if path flag = 1, join the directory path and the paths[0] else return paths[0]
+        if (path_flag == 1)
+        {
+            char *path = malloc(sizeof(char) * BUFFER_MAX);
+            strcpy(path, dir_path);
+            strcat(path, paths[0]);
+            return path;
+        }
+        else
+        {
+            return paths[0];
+        }
     }
     else
     {
@@ -117,8 +134,85 @@ char *auto_complete(char *input)
             }
             longest_common_prefix[k] = '\0';
         }
+        // print prefix and longest common prefix
+        //  printf("prefix: %s\n", prefix);
+        //  printf("longest common prefix: %s\n", longest_common_prefix);
+        //  //print last token
+        //  printf("last token: %s\n", last_token);
+        // global_long_prefix = longest_common_prefix;
+        // global_prefix = last_token;
+
+        // if(strcmp(global_long_prefix, global_prefix) == 0){
+        //     paths2_count = i;
+        //     paths2 = paths;
+        //     return NULL;
+        // }
+
+        for (int j = 0; j < i; j++)
+        {
+            free(paths[j]);
+        }
+        free(paths);
+
+        if (path_flag == 1)
+        {
+            char *temp = malloc(sizeof(char) * BUFFER_MAX);
+            strcpy(temp, longest_common_prefix);
+            strcpy(longest_common_prefix, dir_path);
+            strcat(longest_common_prefix, temp);
+            free(temp);
+        }
+        // printf(longest_common_prefix);
         return longest_common_prefix;
+
+        // if (strcmp(longest_common_prefix, last_token) == 0)
+        // {
+        //     // store all paths in another 2d array
+        //     // use global variable paths2
+        //     paths2_count = i;
+        //     paths2 = paths;
+        //     global_long_prefix = longest_common_prefix;
+        //     global_prefix = last_token;
+        //     // print paths2
+        //     //  for (int j = 0; j < paths2_count; j++)
+        //     //  {
+        //     //      printf("paths2[%d]: %s\n", j, paths2[j]);
+        //     //  }
+        // }
+        // else
+        // {
+        //     if (path_flag == 1)
+        //     {
+        //         char *temp = malloc(sizeof(char) * BUFFER_MAX);
+        //         strcpy(temp, longest_common_prefix);
+        //         strcpy(longest_common_prefix, dir_path);
+        //         strcat(longest_common_prefix, temp);
+        //         free(temp);
+        //     }
+        //     // printf(longest_common_prefix);
+        //     return longest_common_prefix;
+        // }
+
+        // free all paths
+        //  for (int j = 0; j < i; j++)
+        //  {
+        //      free(paths[j]);
+        //  }
+        //  free(paths);
+
+        // if path flag = 1, join the directory path and the longest common prefix
+        //  if (path_flag == 1)
+        //  {
+        //      char *temp = malloc(sizeof(char) * BUFFER_MAX);
+        //      strcpy(temp, longest_common_prefix);
+        //      strcpy(longest_common_prefix, dir_path);
+        //      strcat(longest_common_prefix, temp);
+        //      free(temp);
+        //  }
+        //  // printf(longest_common_prefix);
+        //  return longest_common_prefix;
     }
+    closedir(dir);
 }
 
 //     free(input_copy);

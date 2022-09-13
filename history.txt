@@ -1,21 +1,21 @@
 20
-cd tt
-ls
-cd ..
-ls
-cd tt/
-cd t	
-cd tt
-cd ba	
-background.c
-cd ba	background.c
-cd ba	ckground.c
-cd baackground.c
-cd background.c
-cd zebra
-cd zebra/
 cd ..
 cd y
 cd zebra/
 cd y
 cd zebra/
+cd zistory.txt 
+cd ra/his
+cd zenra/his
+cd history.
+cd zebra/h.
+cd zebra/history.
+cd zebra/history.t
+zebra/history.txt 
+cd zeb
+cd ze
+cd zeb
+cd ze
+cd z
+cd zeb
+cd zebcd zebr

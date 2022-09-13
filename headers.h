@@ -38,6 +38,10 @@ extern int arg_count;
 // declare global variable home
 extern char *home;
 extern char *prev_dir;
+extern char *global_long_prefix;
+extern char *global_prefix;
+extern char **paths2;
+extern int paths2_count;
 
 char printer(char *input);
 char **input_tokenizer(char *input);

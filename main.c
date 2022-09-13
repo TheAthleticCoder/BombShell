@@ -2,7 +2,10 @@
 
 char *home;
 char *prev_dir;
-
+// int paths2_count;
+// char **paths2;
+// char *global_long_prefix;
+// char *global_prefix;
 int main()
 {
     // delimiter
@@ -13,6 +16,7 @@ int main()
     prev_dir = malloc(sizeof(char) * CWD_MAX);
     getcwd(home, CWD_MAX);
     strcpy(prev_dir, home);
+    // paths2_count = 0;
     // load history
     historyLoader();
     while (1)
@@ -22,6 +26,11 @@ int main()
         // print process count
         //  printf("%d\n", process_count);
         char *input = malloc(sizeof(char) * BUFFER_MAX);
+        // global_long_prefix = malloc(sizeof(char) * BUFFER_MAX);
+        // global_prefix = malloc(sizeof(char) * BUFFER_MAX);
+        // paths2 = malloc(sizeof(char *) * BUFFER_MAX);
+        // memset(global_long_prefix, 0, BUFFER_MAX);
+        // memset(global_prefix, 0, BUFFER_MAX);
         char *c;
         setbuf(stdout, NULL);
         enableRawMode();
@@ -73,10 +82,9 @@ int main()
                         strcpy(last_token, token);
                         token = strtok_r(NULL, " ", &save_pointer);
                     }
-                    // get string from autocomplete
+
                     char *auto_complete_string = auto_complete(last_token);
-                    // print auto complete string
-                    // if auto complete string is null
+
                     if (auto_complete_string != NULL)
                     {
                         printf("%s", auto_complete_string + strlen(last_token));
