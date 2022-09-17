@@ -1,21 +1,21 @@
 20
-cat < t.txt
-sort < t.txt
-echo bye > t.txt
-echo fg >> t.txt
-echo hi > r.txt
-echo bye >> r.txt
+ls
+cd zeb/
+cd ..
+hi > 
+sleep 10
+ls
+sleep 4
+sleep 4 &
 echo "hi" > r.txt
-echo "bye" > r.txt
 echo "cry" >> r.txt
-echo ghi > r.txt
-echo hjk >> r.txt
 cat < r.txt
 sort < r.txt > s.txt
-echo abc > r.txt
-echo fgh >> r.txt
-echo cde >> r.txt
-cat < r.txt
-sort < r.txt > s.txt
-cat < r.txt
-sort < r.txt > s.txt
+cat < s.txt
+exit
+ls
+sleep 4
+cat < history.txt
+pinfo
+sleep 10 &
+jobs

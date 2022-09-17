@@ -2,11 +2,13 @@
 
 // FUNCTION TO TAKE IN COMMAND AND TOKEN AND EXECUTE
 void input_to_execute(char *command, char **tokens)
-{   
+{
     // check if tokens have >, <, >>
+    //print arg_count
+    // printf("%d\n", arg_count);
     int i = 0;
     int redirect_flag = 0;
-    while (tokens[i] != NULL && arg_count>1)
+    while (i < arg_count - 1)
     {
         if (strcmp(tokens[i], ">") == 0 || strcmp(tokens[i], "<") == 0 || strcmp(tokens[i], ">>") == 0)
         {
@@ -17,7 +19,7 @@ void input_to_execute(char *command, char **tokens)
     }
     // if tokens have >, <, >>, call redirect function
     if (redirect_flag == 1)
-    {      
+    {
         tokens[arg_count - 1] = NULL;
         char **shift_tokens = malloc(sizeof(char *) * TOK_MAX);
         shift_tokens[0] = malloc(sizeof(char) * TOK_MAX);
@@ -33,12 +35,14 @@ void input_to_execute(char *command, char **tokens)
         shift_tokens[i] = NULL;
         // printf("hiya\n");
         redirect(shift_tokens);
-        // printf("hiya\n");
         free(shift_tokens);
+        // printf("hiya\n");
         // redirect(command, tokens);
     }
     else
     {
+        // printf("hi\n");
+        // tokens[arg_count - 1] = NULL;
         // strcmp to check if command is cd
         if (strcmp(command, "cd") == 0)
         {
@@ -128,15 +132,16 @@ void input_to_execute(char *command, char **tokens)
         else
         {
             // setting last token to NULL to prevent garbage value from passing
+            // printf("hi\n");
             tokens[arg_count - 1] = NULL;
             // print command and tokens
-            //  printf("command: %s\n", command);
-            //  int i = 0;
-            //  while (tokens[i] != NULL)
-            //  {
-            //      printf("tokens[%d]: %s\n", i, tokens[i]);
-            //      i++;
-            //  }
+            // printf("command: %s\n", command);
+            // int i = 0;
+            // while (tokens[i] != NULL)
+            // {
+            //     printf("tokens[%d]: %s\n", i, tokens[i]);
+            //     i++;
+            // }
             run_fore_back(command, tokens);
         }
     }
