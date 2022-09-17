@@ -19,6 +19,9 @@ int main()
     // paths2_count = 0;
     // load history
     historyLoader();
+
+    //implement ctrl + z
+    signal(SIGTSTP, ctrl_z_handler);
     while (1)
     {
         // Prompt to display the kernel like display

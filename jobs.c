@@ -41,7 +41,8 @@ void printJobs(int flag_r, int flag_s)
     {
         // if temp status is 1
         if (temp->status == 1)
-        {
+        {   
+            // printf("hi\n");
             // use proc stat to get store running or stopped status
             char path[1024];
             // print pid

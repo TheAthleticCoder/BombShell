@@ -1,21 +1,21 @@
 20
-cd ..
-cd y
-cd zebra/
-cd y
-cd zebra/
-cd zistory.txt 
-cd ra/his
-cd zenra/his
-cd history.
-cd zebra/h.
-cd zebra/history.
-cd zebra/history.t
-zebra/history.txt 
-cd zeb
-cd ze
-cd zeb
-cd ze
-cd z
-cd zeb
-cd zebcd zebr
+cat < t.txt
+sort < t.txt
+echo bye > t.txt
+echo fg >> t.txt
+echo hi > r.txt
+echo bye >> r.txt
+echo "hi" > r.txt
+echo "bye" > r.txt
+echo "cry" >> r.txt
+echo ghi > r.txt
+echo hjk >> r.txt
+cat < r.txt
+sort < r.txt > s.txt
+echo abc > r.txt
+echo fgh >> r.txt
+echo cde >> r.txt
+cat < r.txt
+sort < r.txt > s.txt
+cat < r.txt
+sort < r.txt > s.txt

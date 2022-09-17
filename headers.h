@@ -88,4 +88,7 @@ void die(const char *s);
 void disableRawMode();
 void enableRawMode();
 char *auto_complete(char *input);
+
+void ctrl_z_handler(int sig);
+void redirect(char **tokens);
 #endif
