@@ -4,6 +4,8 @@
 // extern struct process *processes;
 struct process *processes;
 int process_count = 0;
+//store current foreground process pid
+int fg_pid = 0;
 
 // add process to linked list
 void add_process(pid_t pid, char *command, char **tokens)
@@ -168,6 +170,7 @@ void run_fore_back(char **command, char **tokens)
         }
         // set shift_tokens[i+1] to NULL
         shift_tokens[i] = NULL;
+        fg_pid = process_count + 1;
         if (child == -1)
         {
             perror("fork");

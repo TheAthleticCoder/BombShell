@@ -1,4 +1,6 @@
 20
+sleep 10 &
+jobs
 jobs -r
 jobs
 sleep 10
@@ -17,5 +19,3 @@ pinfo
 cat file.txt | wc
 cat history.txt | wc
 ls
-cat pp.txt | sort
-cat pp.txt | sort | uniq

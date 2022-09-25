@@ -22,6 +22,8 @@ int main()
 
     //implement ctrl + z
     signal(SIGTSTP, ctrl_z_handler);
+    //implement ctrl + c
+    signal(SIGINT, ctrl_c_handler);
     while (1)
     {
         // Prompt to display the kernel like display
@@ -105,7 +107,16 @@ int main()
                 }
                 else if (c == 4)
                 {
-                    exit(0);
+                    //if there is no input, exit
+                    if (pt == 0)
+                    {
+                        printf("\r");
+                        exit(0);
+                    }
+                    else
+                    {
+                        printf("\a");
+                    }
                 }
                 else
                 {
@@ -131,7 +142,8 @@ int main()
                 // update history counter
                 uniqueHistory(args);
                 saveHistory();
-                input_tokenize(args);
+                pipe_tokenize(args);
+                // input_tokenize(args);
                 args = strtok_r(NULL, delimiter, &save_pointer);
             }
         }

@@ -35,6 +35,7 @@ char *remove_extra_spaces(char *str);
 #define TOK_MAX 512
 
 extern int arg_count;
+extern int piped_count;
 // declare global variable home
 extern char *home;
 extern char *prev_dir;
@@ -45,6 +46,7 @@ extern int paths2_count;
 
 char printer(char *input);
 char **input_tokenizer(char *input);
+char **pipe_tokenize(char *input);
 void input_to_execute(char *command, char **tokens);
 
 void echo(char **tokens);
@@ -90,5 +92,8 @@ void enableRawMode();
 char *auto_complete(char *input);
 
 void ctrl_z_handler(int sig);
+void ctrl_c_handler(int sig);
+//array to store foreground process id
+extern int fg_pid;
 void redirect(char **tokens);
 #endif

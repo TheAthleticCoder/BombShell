@@ -53,7 +53,7 @@ void redirect(char **tokens)
     }
     new_tokens[j] = NULL;
     tokens = new_tokens;
-    
+
     //check if files exist based on flags
     if (input_flag == 1)
     {
@@ -152,4 +152,21 @@ void redirect(char **tokens)
     //freeing memory
     free(input_file_name);
     free(output_file_name);
+    //freeing memory
+    i = 0;
+    while (new_tokens[i] != NULL)
+    {
+        free(new_tokens[i]);
+        i++;
+    }
+    free(new_tokens);
+    //closing files
+    if (input_flag == 1)
+    {
+        close(fd_in);
+    }
+    if (output_flag == 1 || append_flag == 1)
+    {
+        close(fd_out);
+    }
 }

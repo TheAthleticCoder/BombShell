@@ -10,6 +10,7 @@ void foreground(char **tokens)
         if (temp->num == job_num)
         {
             int status;
+            fg_pid = temp->num;
             int fg = kill(temp->pid, SIGCONT);
             if (fg == -1)
             {

@@ -8,6 +8,7 @@ void input_to_execute(char *command, char **tokens)
     // printf("%d\n", arg_count);
     int i = 0;
     int redirect_flag = 0;
+    int pipe_flag = 0;
     while (i < arg_count - 1)
     {
         if (strcmp(tokens[i], ">") == 0 || strcmp(tokens[i], "<") == 0 || strcmp(tokens[i], ">>") == 0)
@@ -15,8 +16,15 @@ void input_to_execute(char *command, char **tokens)
             redirect_flag = 1;
             break;
         }
+        else if (strcmp(tokens[i], "|") == 0)
+        {
+            pipe_flag = 1;
+            break;
+        }
         i++;
     }
+
+    //if pipe_flag is set, tokenize
     // if tokens have >, <, >>, call redirect function
     if (redirect_flag == 1)
     {
