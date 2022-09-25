@@ -52,8 +52,6 @@ void background(char **tokens)
         if (temp->num == job_num)
         {
             int status;
-            //print pid and status
-            // printf("[%d] %d %s\n", temp->num, temp->pid, temp->ab_norm);
             int bg = kill(temp->pid, SIGCONT);
             if (bg == -1)
             {

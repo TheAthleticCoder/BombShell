@@ -42,10 +42,7 @@ void printJobs(int flag_r, int flag_s)
         // if temp status is 1
         if (temp->status == 1)
         {   
-            // printf("hi\n");
-            // use proc stat to get store running or stopped status
             char path[1024];
-            // print pid
             printf("[%d] %d \n", temp->num, temp->pid);
             sprintf(path, "/proc/%d/stat", temp->pid);
             FILE *fp = fopen(path, "r");
@@ -58,19 +55,14 @@ void printJobs(int flag_r, int flag_s)
             ssize_t read;
             if ((read = getline(&line, &len, fp)) != -1)
             {
-                // printf("Retrieved line of length %zu :\n", read);
-                // printf("%s", line);
                 char *token = strtok(line, " ");
                 int count = 0;
                 while (token != NULL)
                 {
-                    // printf("%s\n", token);
                     if (count == 2)
                     {
-                        // printf("%s\n", token);
                         if (strcmp(token, "T") == 0)
                         {
-                            // printf("stopped\n");
                             stopped_jobs[stopped_count].num = temp->num;
                             stopped_jobs[stopped_count].pid = temp->pid;
                             stopped_jobs[stopped_count].command = malloc(sizeof(char) * 100);
@@ -90,7 +82,6 @@ void printJobs(int flag_r, int flag_s)
                         }
                         else
                         {
-                            // printf("running\n");
                             running_jobs[running_count].num = temp->num;
                             running_jobs[running_count].pid = temp->pid;
                             running_jobs[running_count].command = malloc(sizeof(char) * 100);
@@ -115,7 +106,6 @@ void printJobs(int flag_r, int flag_s)
                 }
             }
             fclose(fp);
-            // temp = temp->next;
         }
         temp = temp->next;
     }
@@ -124,11 +114,9 @@ void printJobs(int flag_r, int flag_s)
     if (flag_r == 1)
     {
         qsort(running_jobs, running_count, sizeof(struct jobs), job_compare);
-        // print running jobs in format process_count Running command tokens pid
         for (int i = 0; i < running_count; i++)
         {
             printf("[%d] Running ", running_jobs[i].num);
-            // prin the command
             printf("%s ", running_jobs[i].command);
             int j = 0;
             while (running_jobs[i].tokens[j] != NULL)
@@ -143,11 +131,9 @@ void printJobs(int flag_r, int flag_s)
     if (flag_s == 1)
     {
         qsort(stopped_jobs, stopped_count, sizeof(struct jobs), job_compare);
-        // print stopped jobs in format process_count Stopped command tokens pid
         for (int i = 0; i < stopped_count; i++)
         {
             printf("[%d] Stopped ", stopped_jobs[i].num);
-            // prin the command
             printf("%s ", stopped_jobs[i].command);
             int j = 0;
             while (stopped_jobs[i].tokens[j] != NULL)
@@ -170,7 +156,6 @@ void jobs(char *command, char **tokens)
     int i = 0;
     while (i < arg_count - 1)
     {
-        // print tokens[i] for debugging
         if (strcmp(tokens[i], "-r") == 0)
         {
             flag_r = 1;

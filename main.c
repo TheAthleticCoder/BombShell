@@ -20,9 +20,9 @@ int main()
     // load history
     historyLoader();
 
-    //implement ctrl + z
+    // implement ctrl + z
     signal(SIGTSTP, ctrl_z_handler);
-    //implement ctrl + c
+    // implement ctrl + c
     signal(SIGINT, ctrl_c_handler);
     while (1)
     {
@@ -74,9 +74,7 @@ int main()
                     }
                 }
                 else if (c == 9)
-                { // TAB character
-                    // input[pt++] = c;
-                    // get argument after last space
+                {
                     char *input_copy = malloc(sizeof(char) * BUFFER_MAX);
                     strcpy(input_copy, input);
                     char *save_pointer;
@@ -93,7 +91,6 @@ int main()
                     if (auto_complete_string != NULL)
                     {
                         printf("%s", auto_complete_string + strlen(last_token));
-                        // update input
                         strcat(input, auto_complete_string + strlen(last_token));
                         pt += strlen(auto_complete_string) - strlen(last_token);
                     }
@@ -107,7 +104,7 @@ int main()
                 }
                 else if (c == 4)
                 {
-                    //if there is no input, exit
+                    // if there is no input, exit
                     if (pt == 0)
                     {
                         printf("\r");
@@ -130,8 +127,6 @@ int main()
             }
         }
         disableRawMode();
-        printf("\nInput Read: [%s]\n", input);
-        // fgets(input, BUFFER_MAX, stdin);
         // printf("\nInput Read: [%s]\n", input);
         if (input != NULL)
         {
@@ -149,7 +144,6 @@ int main()
         }
         else
         {
-            // if there is no input, print error
             perror("fgets");
             return -1;
         }

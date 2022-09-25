@@ -2,7 +2,7 @@
 
 void redirect(char **tokens)
 {
-    //check and flag for >, <, >>
+    //checking and flag for >, <, >>
     int input_flag = 0;
     int output_flag = 0;
     int append_flag = 0;
@@ -16,24 +16,20 @@ void redirect(char **tokens)
         {
             input_flag = 1;
             strcpy(input_file_name, tokens[i + 1]);
-            // break;
         }
         else if (strcmp(tokens[i], ">") == 0)
         {
-            // printf("hiya\n");
             output_flag = 1;
             strcpy(output_file_name, tokens[i + 1]);
-            // break;
         }
         else if (strcmp(tokens[i], ">>") == 0)
         {
             append_flag = 1;
             strcpy(output_file_name, tokens[i + 1]);
-            // break;
         }
         i++;
     }
-    // remove >, <, >> based on flags and store in new tokens
+    // removing >, <, >> based on flags and store in new tokens
     char **new_tokens = malloc(sizeof(char *) * TOK_MAX);
     int j = 0;
     i = 0;
@@ -54,7 +50,7 @@ void redirect(char **tokens)
     new_tokens[j] = NULL;
     tokens = new_tokens;
 
-    //check if files exist based on flags
+    //checking if files exist based on flags
     if (input_flag == 1)
     {
         FILE *fp = fopen(input_file_name, "r");
@@ -119,8 +115,6 @@ void redirect(char **tokens)
     pid_t pid = fork();
     if (pid == 0)
     {
-        //child
-        //redirecting
         if (input_flag == 1)
         {
             dup2(fd_in, 0);
@@ -140,8 +134,6 @@ void redirect(char **tokens)
     }
     else if (pid > 0)
     {
-        //parent
-        //wait for child to finish
         int status;
         waitpid(pid, &status, 0);
     }
@@ -152,7 +144,6 @@ void redirect(char **tokens)
     //freeing memory
     free(input_file_name);
     free(output_file_name);
-    //freeing memory
     i = 0;
     while (new_tokens[i] != NULL)
     {

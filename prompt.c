@@ -38,20 +38,6 @@ void prompt() {
     }
     // print prompt
     printf("<%s@%s:%s> ", username, hostname, path);
-
-    //printing prompt
-    // printf("<%s@%s:%s%s> ", username, hostname, path, cwd);
-    //print current working directory
-    // printf("%s\n", cwd);
-
-    // else {
-    //     if(cwd[0] == '/') {
-    //     printf("%s@%s:~%s$ ", username, hostname, cwd);
-    // }
-    // else {
-    //     printf("%s@%s:~%s$ ", username, hostname, cwd);
-    // }
-    // }
     free(hostname);
     free(username);
     free(cwd);

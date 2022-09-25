@@ -16,8 +16,6 @@ void add_process(pid_t pid, char *command, char **tokens)
     // set the pid
     new_process->num = process_count + 1;
     new_process->pid = pid;
-    // print new process pid
-    // printf("1[%d] %d\n", new_process->num, new_process->pid);
     // set the command
     new_process->command = malloc(sizeof(char) * 100);
     strcpy(new_process->command, command);
@@ -32,7 +30,7 @@ void add_process(pid_t pid, char *command, char **tokens)
     }
     new_process->status = 1;
     new_process->ab_norm = NULL;
-    // set the next to NULL
+    // setting the next to NULL
     new_process->next = NULL;
     // if processes is NULL, set processes to new_process else add to end of linked list
     if (processes == NULL)
@@ -51,10 +49,9 @@ void add_process(pid_t pid, char *command, char **tokens)
     process_count++;
 }
 
-// remove process from linked list
+// removing process from linked list
 void remove_process(pid_t pid)
 {
-    // make status of process 0
     struct process *temp = processes;
     while (temp != NULL)
     {
@@ -65,7 +62,7 @@ void remove_process(pid_t pid)
         }
         temp = temp->next;
     }
-    // update processes
+    // updating processes
     processes = temp;
     free(temp);
 }
@@ -77,7 +74,7 @@ void check_background_process()
     {
         if (temp->status == 1)
         {
-            /// print if process terminated normally or abnormally
+            /// printing if process terminated normally or abnormally
             if (waitpid(temp->pid, &temp->ab_norm, WNOHANG) == temp->pid)
             {
                 if (temp->ab_norm == 0)
@@ -88,7 +85,6 @@ void check_background_process()
                 {
                     printf("[%d] %d exited abnormally\n", temp->num, temp->pid);
                 }
-                // set status to 0
                 temp->status = 0;
             }
         }
@@ -136,11 +132,9 @@ void run_fore_back(char **command, char **tokens)
         }
         else if (child == 0)
         {
-            // execute the command
             execvp(shift_tokens[0], shift_tokens);
             perror("execvp");
             exit(1);
-            // free(shift_tokens);
         }
         else
         {
@@ -150,7 +144,6 @@ void run_fore_back(char **command, char **tokens)
         }
         free(shift_tokens);
     }
-    // else, run foreground process
     else
     {
         int status;
@@ -168,7 +161,6 @@ void run_fore_back(char **command, char **tokens)
             strcpy(shift_tokens[i], tokens[i - 1]);
             i++;
         }
-        // set shift_tokens[i+1] to NULL
         shift_tokens[i] = NULL;
         fg_pid = process_count + 1;
         if (child == -1)
@@ -189,7 +181,7 @@ void run_fore_back(char **command, char **tokens)
             // add the process to the linked list
             add_process(child, shift_tokens[0], shift_tokens);
             waitpid(child, &status, 0);
-            // if process stopped, print time taken
+            // if process stopped, printing time taken
             if (WIFEXITED(status) != 0)
             {
                 time_elapsed = difftime(time(NULL), start_time);

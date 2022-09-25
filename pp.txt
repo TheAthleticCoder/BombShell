@@ -1,14 +1,4 @@
 20
-sleep 10 &
-jobs
-jobs -r
-jobs
-sleep 10
-jobs
-sleep 10
-sleep 10 
-sleep 10
-jobs
 sleep 10
 hi | bye
 exit
@@ -19,3 +9,13 @@ pinfo
 cat file.txt | wc
 cat history.txt | wc
 ls
+cat pp.txt | sort
+cat pp.txt | sort | uniq
+cat pp.txt | sort
+ls
+cat pp.txt | sort
+cat pp.txt | head -5
+cd zeb/
+cd ..
+cat pp.txt | head -15 | tail -5
+cat history.txt > pp.txt
