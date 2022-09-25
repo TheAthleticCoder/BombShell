@@ -1,14 +1,4 @@
 20
-ls
-cat pp.txt | sort
-cat pp.txt | sort | uniq
-cat pp.txt | sort
-ls
-cat pp.txt | sort
-cat pp.txt | head -5
-cd zeb/
-cd ..
-cat pp.txt | head -15 | tail -5
 cat history.txt > pp.txt
 ls
 cd zeb/
@@ -19,3 +9,13 @@ ls
 cd zeb/
 ls
 cd zeb/
+pp.txt | sort | uniq
+cat pp.txt | sort | uniq
+cat pp.txt | sort
+cat pp.txt | sort |uniq
+cat pp.txt | sort
+ls
+cd ..
+cd Shell/
+ls
+cat pp.txt | sort

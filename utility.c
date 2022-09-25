@@ -126,28 +126,23 @@ void pipe_execute(char **piped_tokens)
         int i = 0;
         for(i = 0; i< piped_count; i++)
         {
+            //do piping
             pipe(fd);
-            pid_t pid = fork();
-            if(pid<0)
+            if(fork() == 0)
             {
-                perror("Fork failed");
-                exit(1);
-            }
-            else if(pid == 0)
-            {
-                //child process
+                //child
                 dup2(prev_read, STDIN_FILENO);
-                if(i != piped_count-1)
+                if(i != piped_count - 1)
                 {
                     dup2(fd[1], STDOUT_FILENO);
                 }
                 close(fd[0]);
-                // printf("hihihihihihihihi\n\n");
                 input_tokenize(piped_tokens[i]);
                 exit(0);
             }
-            else{
-                //parent process
+            else
+            {
+                //parent
                 wait(NULL);
                 close(fd[1]);
                 prev_read = fd[0];
