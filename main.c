@@ -8,7 +8,6 @@ char *prev_dir;
 // char *global_prefix;
 int main()
 {
-    // delimiter
     struct termios orig_termios;
     char *delimiter = ";\n";
     // set home as current working directory
@@ -20,16 +19,14 @@ int main()
     // load history
     historyLoader();
 
-    // implement ctrl + z
+    //implementing ctrl + z
     signal(SIGTSTP, ctrl_z_handler);
-    // implement ctrl + c
+    //implementing ctrl + c
     signal(SIGINT, ctrl_c_handler);
     while (1)
     {
         // Prompt to display the kernel like display
         prompt();
-        // print process count
-        //  printf("%d\n", process_count);
         char *input = malloc(sizeof(char) * BUFFER_MAX);
         // global_long_prefix = malloc(sizeof(char) * BUFFER_MAX);
         // global_prefix = malloc(sizeof(char) * BUFFER_MAX);
@@ -54,12 +51,12 @@ int main()
                     char buf[3];
                     buf[2] = 0;
                     if (read(STDIN_FILENO, buf, 2) == 2)
-                    { // length of escape code
+                    { 
                         printf("\rarrow key: %s", buf);
                     }
                 }
                 else if (c == 127)
-                { // backspace
+                {
                     if (pt > 0)
                     {
                         if (input[pt - 1] == 9)
@@ -74,7 +71,7 @@ int main()
                     }
                 }
                 else if (c == 9)
-                {
+                { // TAB character
                     char *input_copy = malloc(sizeof(char) * BUFFER_MAX);
                     strcpy(input_copy, input);
                     char *save_pointer;
@@ -104,7 +101,6 @@ int main()
                 }
                 else if (c == 4)
                 {
-                    // if there is no input, exit
                     if (pt == 0)
                     {
                         printf("\r");
@@ -127,6 +123,7 @@ int main()
             }
         }
         disableRawMode();
+        printf("\n");
         // printf("\nInput Read: [%s]\n", input);
         if (input != NULL)
         {
@@ -144,6 +141,7 @@ int main()
         }
         else
         {
+            // if there is no input, print error
             perror("fgets");
             return -1;
         }

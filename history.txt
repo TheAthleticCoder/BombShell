@@ -1,12 +1,4 @@
 20
-hi | bye
-exit
-ls
-ls | cd
-ls
-pinfo
-cat file.txt | wc
-cat history.txt | wc
 ls
 cat pp.txt | sort
 cat pp.txt | sort | uniq
@@ -19,3 +11,11 @@ cd ..
 cat pp.txt | head -15 | tail -5
 cat history.txt > pp.txt
 ls
+cd zeb/
+cd ..
+ls
+cd zeb/
+ls
+cd zeb/
+ls
+cd zeb/
