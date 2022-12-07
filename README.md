@@ -8,6 +8,14 @@ The shell should be capable of launching a process from a system programme such 
 
 -----
 
+## **Features and Functionality**
+
+The user-deﬁned interactive shell program that can create and manage new processes. The list of these are enclosed in the two `PDF files`.
+1. `functionality.pdf` (Done as Assignment 2 in the course)
+2. `extending_functionality.pdf` (Done as Assignment 3 in the course)
+
+-----
+
 ## **File Structure:**
 
 1. `headers.h`: It includes library calls, global variable and structure declarations, and fixed size containers. This file is used by other files and stores their function declarations.
